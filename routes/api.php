@@ -18,9 +18,10 @@ Route::delete('/admins/{id}/delete', [AdminController::class, 'destroy'])->middl
 Route::post('/programmes/store', [ProgrammesController::class, 'store'])->middleware('auth');
 Route::get('/programmes',[ProgrammesController::class, 'index'])->middleware('auth');
 Route::get('/programmes/{id}',[ProgrammesController::class, 'show'])->middleware('auth');
+Route::post('/programmes/update/{id}', [ProgrammesController::class, 'update'])->middleware('auth');
 Route::delete('/programmes/{id}/delete',[ProgrammesController::class, 'destroy'])->middleware('auth');
 
-Route::get('/activeprogrammes/index/{cnp}', [ActivePrograms::class, 'index']);
+Route::get('/activeprogrammes/index/{cnp}', [ActivePrograms::class, 'index'])->middleware('throttle:60,60');
 Route::post('/activeprogrammes/{id}', [ActivePrograms::class, 'store']);
 Route::delete('/activeprogrammes/{id}/{cnp}', [ActivePrograms::class, 'destroy']);
 

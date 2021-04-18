@@ -30,13 +30,13 @@ class ActivePrograms extends Controller
         $roomInstances = $programmes[0]->activeprograms;
 
         if($date2->gt($date1)){
-            return response('Start date greater than end date');
+            return response('Start date greater than end date', 401);
         }
         if(count($roomInstances) == 0 ){
             1 == 1;
         }
         else if (($date1 >= $roomInstances[0]->start_date && $date1 <= $roomInstances[0]->end_date) || ($date2 >= $roomInstances[0]->start_date && $date2 <= $roomInstances[0]->end_date)){
-            return response('Well Mate, you dont have time for that, you are already registered in a different room.');
+            return response('Well Mate, you dont have time for that, you are already registered in a different room.', 401);
         }
         ActiveProgrammes::create([
             'programmes_id' => $programmes[0]->id,
