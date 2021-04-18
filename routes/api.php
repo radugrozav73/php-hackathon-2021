@@ -11,8 +11,8 @@ Route::post('/admins/register', [AdminController::class, 'registerAdmin']);
 Route::post('/admins/login', [AdminController::class, 'loginAdmin']);
 
 Route::get('/admins', [AdminController::class, 'index'])->middleware('auth');
+Route::post('/admins/update', [AdminController::class, 'update'])->middleware('auth');
 Route::get('/admins/{id}', [AdminController::class, 'show'])->middleware('auth');
-Route::post('/admins/{id}/update', [AdminController::class, 'update'])->middleware('auth');
 Route::delete('/admins/{id}/delete', [AdminController::class, 'destroy'])->middleware('auth');
 
 Route::post('/programmes/store', [ProgrammesController::class, 'store'])->middleware('auth');

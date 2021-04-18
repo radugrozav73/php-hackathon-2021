@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Programmes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 class AdminController extends Controller
 {
 
@@ -24,7 +24,7 @@ class AdminController extends Controller
     
         $token = Auth::attempt($request->only('email', 'password'));
 
-        return response($token);
+        return response($token, 202);
     }
 
     public function registerAdmin(Request $request)
@@ -45,38 +45,40 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response('Done');
+        return response('Admin registered', 200);
     }
-
-    
 
     public function show($id)
     {
-        if($admin = User::where('id', $id)->get()){
+        if(count($admin = User::where('id', $id)->get()) > 0){
             return response($admin);
         }
-        return response('There is no admin that match your search credentiales');
+        return response('There is no admin that match your searching credentiales', 401);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $post = User::where('id', $id);
+        $this->validate($request, [
+            'name' => 'required|max:50',
+            'age' => 'required|max:3',
+            'gender' => 'required'
+        ]);
 
-        if(!$post){
-            return response('There is no admin that match your search credentiales');
-        }
-
-        $post->update([
+        $request->user()->update([
             'name' => $request->name,
             'age' => $request->age,
             'gender' => $request->gender
             ]);
 
-        return response('updated');
+        return response('Admin stats udated', 200);
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        User::where('id', $id)->delete();
+        if($request->user()->id === $id){
+            User::where('id', $id)->delete();
+        }
+
+        return response('Admin successfully deleted', 202);
     }
 }
