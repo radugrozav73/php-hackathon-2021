@@ -54,7 +54,7 @@ is a toolbar that helps me debug and i also used JWT for token generating.
 Please fill in the following table with the technologies you used in order to work at your application. Feel free to add more rows if you want us to know about anything else you used.
 | Name | Choice |
 | ------ | ------ |
-| Operating system (OS) | Windows 10(mizerie) |
+| Operating system (OS) | Windows 10 |
 | Database  | MySQL 8.0|
 | Web server| xampp |
 | Laravel | 7.0/8.0 |

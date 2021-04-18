@@ -19,6 +19,7 @@ class CreateProgrammesTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('room_name');
+            $table->string('program_type');
             $table->integer('max_attenders');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });

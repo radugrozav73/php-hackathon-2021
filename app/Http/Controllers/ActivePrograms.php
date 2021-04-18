@@ -75,9 +75,11 @@ class ActivePrograms extends Controller
     public function destroy($id, $cnp)
     {
         $activeInstance = ActiveProgrammes::where('id', $id)->get();
+        $addBackAttenderSpot = Programmes::select('max_attenders')->where('id', $activeInstance[0]->programmes_id)->get();
 
         if($cnp === $activeInstance[0]->cnp){
             $activeInstance[0]->delete();
+            Programmes::where('id', $activeInstance[0]->programmes_id)->update(array('max_attenders'=> $addBackAttenderSpot[0]->max_attenders + 1));
             return response('Application deleted');
         } else {
             return response('Wrong Numerical Code');

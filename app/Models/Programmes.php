@@ -15,6 +15,7 @@ class Programmes extends Model
         'start_date',
         'end_date',
         'room_name',
+        'program_type',
         'user_id',
         'max_attenders',
     ];

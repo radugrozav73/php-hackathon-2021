@@ -22,7 +22,8 @@ class ProgrammesController extends Controller
             'start_date'=>'required',
             'end_date'=>'required',
             'room_name'=>'required|max:255',
-            'max_attenders'=> 'required|min:1|max:100'
+            'max_attenders'=> 'required|min:1|max:100',
+            'program_type'=>'required|max:255'
         ]);
 
         $nrOfOccurences = 0;
@@ -47,7 +48,8 @@ class ProgrammesController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'room_name' => $request->room_name,
-            'max_attenders' => $request->max_attenders
+            'max_attenders' => $request->max_attenders,
+            'program_type'=> $request->program_type
         ]);
 
         return response('Program created', 200);
@@ -84,7 +86,8 @@ class ProgrammesController extends Controller
                 'start_date' => $request->start_date,
                 'end_date'=>$request->end_date,
                 'room_name'=>$request->room_name,
-                'max_attenders' => $request->max_attenders
+                'max_attenders' => $request->max_attenders,
+                'program_type'=> $request->program_type
             ]);
             return response("Plan Sccesfully updated", 200);
         } else {
