@@ -40,7 +40,9 @@ For each of the following functionalities, please tick the box if you implemente
 
 ##### Business rules
 Created a table for each admin, so they can manage their own plans.
-
+Made it easy for customers to join a plan.
+Return info about admins and keep info about customer for future plans.
+Easy to manage.
 
 ##### 3rd party libraries (if applicable)
 Please give a brief review of the 3rd party libraries you used and how/ why you've integrated them into your project.
@@ -48,7 +50,7 @@ Please give a brief review of the 3rd party libraries you used and how/ why you'
 https://github.com/barryvdh/laravel-debugbar
 laravel-debugbar
 
-is a toolbar that helps me debug and i also used JWT for token generating.
+is a toolbar that helps me debug and i also used JWT to generate tokens after authentication.
 
 ##### Environment
 Please fill in the following table with the technologies you used in order to work at your application. Feel free to add more rows if you want us to know about anything else you used.
