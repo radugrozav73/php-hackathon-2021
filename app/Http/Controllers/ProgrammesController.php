@@ -31,14 +31,13 @@ class ProgrammesController extends Controller
             return response('Start date greater than end date');
         }
 
-        for($i = 0; $i< count($roomInstances); $i++){
-            if(($date1 >= $roomInstances[$i]->start_date && $date1 <= $roomInstances[$i]->end_date) || ($date2 >= $roomInstances[$i]->start_date && $date2 <= $roomInstances[$i]->end_date)){
+        foreach($roomInstances as $instances){
+            if(($date1 >= $instances->start_date && $date2 <= $instances->end_date) && ($date2 >= $instances->start_date && $date2 <= $instances->end_date)){
                 $nrOfOccurences++;
+                if($nrOfOccurences >= 1){
+                    return response("Room is busy between $request->start_date and $request->end_date, please try some other time :)");
+                }
             }
-        }
-
-        if($nrOfOccurences >= 1){
-            return response("Room is busy between $request->start_date and $request->end_date, please try some other time :)");
         }
 
         $request->user()->programmes()->create([
