@@ -38,9 +38,12 @@ protected routes:
 For each of the following functionalities, please tick the box if you implemented it and describe its input and output in your application:
 
 [ ] Brew coffee \
+
 [x] Create programme \ By implementing a register system admins can create programmes and manage them.
 To create one you need to set a start_date, an end_date a program_type and a room_name.
+
 [x] Delete programme \ To delete a program you only need the id of the programme, the programme table is bound to the admin table with one to many relationship so it is very easy to delete it.
+
 [x] Book a programme \ The customer only needs to add it's cnp. If the person is added, the programme table's max_attenders will be updated with one less spot in the sport session. If the person decides to quit the session the table will be updated and the spot is added back.
 
 ##### Business rules
