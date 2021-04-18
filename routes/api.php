@@ -20,6 +20,8 @@ Route::get('/programmes',[ProgrammesController::class, 'index'])->middleware('au
 Route::get('/programmes/{id}',[ProgrammesController::class, 'show'])->middleware('auth');
 Route::delete('/programmes/{id}/delete',[ProgrammesController::class, 'destroy'])->middleware('auth');
 
+Route::get('/activeprogrammes/index/{cnp}', [ActivePrograms::class, 'index']);
 Route::post('/activeprogrammes/{id}', [ActivePrograms::class, 'store']);
+Route::delete('/activeprogrammes/{id}/{cnp}', [ActivePrograms::class, 'destroy']);
 
 // Route::post('/programmes/store',[ProgrammesController::class, 'store']);

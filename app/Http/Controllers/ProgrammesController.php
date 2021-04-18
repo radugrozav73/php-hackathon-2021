@@ -26,13 +26,14 @@ class ProgrammesController extends Controller
         $nrOfOccurences = 0;
         $date1 = Carbon::createFromFormat('Y-m-d', $request->end_date);
         $date2 = Carbon::createFromFormat('Y-m-d', $request->start_date);
-        $roomInstances = $request->user()->programmes->where('room_name', $request->room_name);
+        $roomInstances = Programmes::select('start_date', 'end_date')->where('room_name', $request->room_name)->get();
         if($date2->gt($date1)){
             return response('Start date greater than end date');
         }
 
+
         foreach($roomInstances as $instances){
-            if(($date1 >= $instances->start_date && $date2 <= $instances->end_date) && ($date2 >= $instances->start_date && $date2 <= $instances->end_date)){
+            if(($date1 >= $instances->start_date && $date1 <= $instances->end_date) || ($date2 >= $instances->start_date && $date2 <= $instances->end_date)){
                 $nrOfOccurences++;
                 if($nrOfOccurences >= 1){
                     return response("Room is busy between $request->start_date and $request->end_date, please try some other time :)");

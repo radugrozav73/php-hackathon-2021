@@ -9,6 +9,11 @@ use Carbon\Carbon;
 
 class ActivePrograms extends Controller
 {
+    public function index($cnp){
+        $dbInstance = ActiveProgrammes::where('cnp', $cnp)->get();
+
+        return response($dbInstance);
+    }
 
     public function store(Request $request, $id)
     {
@@ -24,19 +29,13 @@ class ActivePrograms extends Controller
         $date2 = Carbon::createFromFormat('Y-m-d', $programmes[0]->start_date);
         $roomInstances = $programmes[0]->activeprograms;
 
-        // return response()->json([
-        //     's' =>$programmes[0]->start_date,
-        //     'e' =>$programmes[0]->end_date,
-        //     's1' => $roomInstances[0]->start_date,
-        //     's2' =>$roomInstances[0]->end_date,
-        // ]);
         if($date2->gt($date1)){
             return response('Start date greater than end date');
         }
         if(count($roomInstances) == 0 ){
             1 == 1;
         }
-        else if (($date1 >= $roomInstances[0]->start_date || $date1 <= $roomInstances[0]->end_date) && ($date2 >= $roomInstances[0]->start_date || $date2 <= $roomInstances[0]->end_date)){
+        else if (($date1 >= $roomInstances[0]->start_date && $date1 <= $roomInstances[0]->end_date) || ($date2 >= $roomInstances[0]->start_date && $date2 <= $roomInstances[0]->end_date)){
             return response('Well Mate, you dont have time for that, you are already registered in a different room.');
         }
         ActiveProgrammes::create([
@@ -53,8 +52,15 @@ class ActivePrograms extends Controller
         return response('Person Added to List');
     }
 
-    public function destroy($id)
+    public function destroy($id, $cnp)
     {
-        //
+        $activeInstance = ActiveProgrammes::where('id', $id)->get();
+
+        if($cnp === $activeInstance[0]->cnp){
+            $activeInstance[0]->delete();
+            return response('Application deleted');
+        } else {
+            return response('Wrong Numerical Code');
+        }
     }
 }
