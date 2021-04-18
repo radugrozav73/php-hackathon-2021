@@ -22,8 +22,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/programmes/update/{id}', [ProgrammesController::class, 'update']);
     Route::delete('/programmes/{id}/delete',[ProgrammesController::class, 'destroy']);
 
-    Route::get('/activeprogrammes/index/{cnp}', [ActivePrograms::class, 'index']);
+    Route::get('/activeprogrammes/index/', [ActivePrograms::class, 'index']);
+    Route::get('/activeprogrammes/index/{cnp}', [ActivePrograms::class, 'show']);
 });
 
-Route::post('/activeprogrammes/{id}', [ActivePrograms::class, 'store'])->middleware('throttle:60,60');
-Route::delete('/activeprogrammes/{id}/{cnp}', [ActivePrograms::class, 'destroy']);
+Route::post('/activeprogrammes/{id}/post', [ActivePrograms::class, 'store'])->middleware('throttle:60,60');
+Route::delete('/activeprogrammes/{id}/{cnp}/delete', [ActivePrograms::class, 'destroy']);

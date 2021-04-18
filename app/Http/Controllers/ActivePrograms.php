@@ -9,7 +9,13 @@ use Carbon\Carbon;
 
 class ActivePrograms extends Controller
 {
-    public function index($cnp){
+    public function index(){
+        $dbInstance = ActiveProgrammes::all();
+
+        return response($dbInstance);
+    }
+
+    public function show($cnp){
         $dbInstance = ActiveProgrammes::where('cnp', $cnp)->get();
 
         return response($dbInstance);

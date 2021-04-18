@@ -1,62 +1,89 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# PHP Hackathon
+This document has the purpose of summarizing the main functionalities your application managed to achieve from a technical perspective. Feel free to extend this template to meet your needs and also choose any approach you want for documenting your solution.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Technical documentation
+### Data and Domain model
+The main entities are Admins (users), Programs and ActiveProgrammes.
+Admins are users, that can log and create health plans, this table has a one to many relationship with Programs table.
+Programs belong to Admins, this is the table responsible for holidng all the information about the plans that Admins create, it has one to many relationship with ActiveProgrammes.
+ActiveProgrammes belong to Programmes, here people can register for the plans provided in Programmes, it has a CNP column that is not unique, just so the same user can register to more than one activity.
+### Application architecture
 
-## About Laravel
+unprotected routes: - /admins/register - Register system for admins, receives as parameters: name, email, age, gender, password
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+             - /admins/login - Login system for admins, receives as parameters: email, password, returns a token that must be saved for authentication
+             - /activeprogrammes/{id} - Here people can register for sports programs, receive as a parameter the id of that program and a cnp.
+             - /activeprogrammers/{id}/{cnp}/delete - The route by which people can be removed from the list of activities, receives as parameters the program id and the cnp
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+protected routes:  
+            -/admins -> Returns the admin list with the data
+            -/admins/update -> Updates the logged in user, receives as parameters: name, age, gender
+            -/admins/{id} -> Search for a specific admin by id and return information about it, parameters: id
+            -/admins/{id}/delete -> It receives the admin id as a parameter and deletes it from the database
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+            -/programmes/store - Create new programs, receive as parameters: start_date, 'end_date', 'room_name', 'program_type', 'max_attenders'
+            -/programmes - Returns the list of programs
+            -/programmes/{id} - It receives as a parameter the id of a program and returns information about it
+            -/programmes/update/{id} -> Get as parameters the program id, start_date, end_date, program_type, room_name, max_attenders and update the respective program
+            -/programmes/{id}/delete -> It receives the program id as a parameter and deletes it from the database.
 
-## Learning Laravel
+            -/activeprogrammes/index/{cnp} -> returns information about a person registered for a course, receives the cnp as a parameter
+            -/activeprogrammes/index/ -> returns all registered persons to the course
+###  Implementation
+##### Functionalities
+For each of the following functionalities, please tick the box if you implemented it and describe its input and output in your application:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+[ ] Brew coffee \
+[x] Create programme \
+[x] Delete programme \
+[x] Book a programme 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+##### Business rules
+Created a table for each admin, so they can manage their own plans.
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+##### 3rd party libraries (if applicable)
+Please give a brief review of the 3rd party libraries you used and how/ why you've integrated them into your project.
 
-### Premium Partners
+https://github.com/barryvdh/laravel-debugbar
+laravel-debugbar
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+is a toolbar that helps me debug and i also used JWT for token generating.
 
-## Contributing
+##### Environment
+Please fill in the following table with the technologies you used in order to work at your application. Feel free to add more rows if you want us to know about anything else you used.
+| Name | Choice |
+| ------ | ------ |
+| Operating system (OS) | Windows 10(mizerie) |
+| Database  | MySQL 8.0|
+| Web server| xampp |
+| Laravel | 7.0/8.0 |
+| IDE | Visual Studio Code |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Testing
+https://github.com/barryvdh/laravel-debugbar
 
-## Code of Conduct
+laravel-debugbar
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Feedback
+In this section, please let us know what is your opinion about this experience and how we can improve it:
 
-## Security Vulnerabilities
+1. Have you ever been involved in a similar experience? If so, how was this one different?
+Learned a lot, no real ideas about improvements. sorry :(
+2. Do you think this type of selection process is suitable for you?
+yes, i learned some staff, plus it was a good experience.
+3. What's your opinion about the complexity of the requirements?
+High first day, Average next day. The overthinking process slows it down.
+4. What did you enjoy the most?
+Coding the task made me understand more about api coding.
+5. What was the most challenging part of this anti hackathon?
+Overcome my overthinking, could finish this project a lot faster if it wasn't for me changing tables.
+6. Do you think the time limit was suitable for the requirements?
+Yes, more than enough.
+7. Did you find the resources you were sent on your email useful?
+Yes, the advanced part was good to read.
+8. Is there anything you would like to improve to your current implementation?
+Yes, but i have no more energy to think :(
+9. What would you change regarding this anti hackathon?
+Can't think of something now.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
