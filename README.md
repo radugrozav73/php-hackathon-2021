@@ -4,9 +4,13 @@ This document has the purpose of summarizing the main functionalities your appli
 ## Technical documentation
 ### Data and Domain model
 The main entities are Admins (users), Programs and ActiveProgrammes.
-Admins are users, that can log and create health plans, this table has a one to many relationship with Programs table.
-Programs belong to Admins, this is the table responsible for holidng all the information about the plans that Admins create, it has one to many relationship with ActiveProgrammes.
+Admins are users, that can log and create health plans, this table has a one to many relationship with Programs table. IT has 5 fillable columns:
+Name (FULL ADMIN NAME), Email(unique), Age, Gender(M/F/Other), Password(password of your admin account).
+
+Programmes belong to Admins, this is the table responsible for holidng all the information about the plans that Admins create, it has one to many relationship with ActiveProgrammes. It has 5 fillable columns, room_name (by the way, I let it be an infinite amount of room numbers, I thought it was a good ideea to be this way, and let the front-end handle it with a list of choiches) the name of the room where you perform activity, program_type (pilates, or fitness, etc.), max_attenders (maximum amount of people that can attend a sport session), a start_date and and end_date (YYYY-mm-dd).
+
 ActiveProgrammes belong to Programmes, here people can register for the plans provided in Programmes, it has a CNP column that is not unique, just so the same user can register to more than one activity.
+This has one fillable column that must be completed by customer and that is CNP.
 ### Application architecture
 
 unprotected routes: - /admins/register - Register system for admins, receives as parameters: name, email, age, gender, password
@@ -21,10 +25,10 @@ protected routes:
             -/admins/{id} -> Search for a specific admin by id and return information about it, parameters: id
             -/admins/{id}/delete -> It receives the admin id as a parameter and deletes it from the database
 
-            -/programmes/store - Create new programs, receive as parameters: start_date, 'end_date', 'room_name', 'program_type', 'max_attenders'
+            -/programmes/store - Create new programs, receive as parameters: start_date,(YYYY-mm-dd) 'end_date', 'room_name', 'program_type', 'max_attenders'
             -/programmes - Returns the list of programs
             -/programmes/{id} - It receives as a parameter the id of a program and returns information about it
-            -/programmes/update/{id} -> Get as parameters the program id, start_date, end_date, program_type, room_name, max_attenders and update the respective program
+            -/programmes/update/{id} -> Get as parameters the program id, start_date, end_date,(YYYY-mm-dd) program_type, room_name, max_attenders and update the respective program
             -/programmes/{id}/delete -> It receives the program id as a parameter and deletes it from the database.
 
             -/activeprogrammes/index/{cnp} -> returns information about a person registered for a course, receives the cnp as a parameter
@@ -34,9 +38,10 @@ protected routes:
 For each of the following functionalities, please tick the box if you implemented it and describe its input and output in your application:
 
 [ ] Brew coffee \
-[x] Create programme \
-[x] Delete programme \
-[x] Book a programme 
+[x] Create programme \ By implementing a register system admins can create programmes and manage them.
+To create one you need to set a start_date, an end_date a program_type and a room_name.
+[x] Delete programme \ To delete a program you only need the id of the programme, the programme table is bound to the admin table with one to many relationship so it is very easy to delete it.
+[x] Book a programme \ The customer only needs to add it's cnp. If the person is added, the programme table's max_attenders will be updated with one less spot in the sport session. If the person decides to quit the session the table will be updated and the spot is added back.
 
 ##### Business rules
 Created a table for each admin, so they can manage their own plans.
@@ -47,10 +52,7 @@ Easy to manage.
 ##### 3rd party libraries (if applicable)
 Please give a brief review of the 3rd party libraries you used and how/ why you've integrated them into your project.
 
-https://github.com/barryvdh/laravel-debugbar
-laravel-debugbar
-
-is a toolbar that helps me debug and i also used JWT to generate tokens after authentication.
+Used JWT to generate tokens after authentication.
 
 ##### Environment
 Please fill in the following table with the technologies you used in order to work at your application. Feel free to add more rows if you want us to know about anything else you used.
@@ -63,9 +65,8 @@ Please fill in the following table with the technologies you used in order to wo
 | IDE | Visual Studio Code |
 
 ### Testing
-https://github.com/barryvdh/laravel-debugbar
 
-laravel-debugbar
+postman
 
 ## Feedback
 In this section, please let us know what is your opinion about this experience and how we can improve it:
@@ -85,7 +86,7 @@ Yes, more than enough.
 7. Did you find the resources you were sent on your email useful?
 Yes, the advanced part was good to read.
 8. Is there anything you would like to improve to your current implementation?
-Yes, but i have no more energy to think :(
+Yes, I would try to see if there is a better way to query stuff.
 9. What would you change regarding this anti hackathon?
-Can't think of something now.
+It was fine, good experience, nice pople.
 
