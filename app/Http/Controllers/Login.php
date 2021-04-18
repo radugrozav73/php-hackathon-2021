@@ -9,7 +9,6 @@ class Login extends Controller
 {
     public function store(Request $request){
         $this->validate($request, [
-            'name' => 'required|max:255',
             'email' => 'required|email',
             'password' => 'required'
         ]);

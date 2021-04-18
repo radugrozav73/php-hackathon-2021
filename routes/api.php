@@ -3,7 +3,23 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Register;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProgrammesController;
+use App\Http\Controllers\ActivePrograms;
 
-Route::post('/register', [Register::class, 'store']);
-Route::post('/login', [Register::class, 'store']);
+Route::post('/admins/register', [AdminController::class, 'registerAdmin']);
+Route::post('/admins/login', [AdminController::class, 'loginAdmin']);
+
+Route::get('/admins', [AdminController::class, 'index'])->middleware('auth');
+Route::get('/admins/{id}', [AdminController::class, 'show'])->middleware('auth');
+Route::post('/admins/{id}/update', [AdminController::class, 'update'])->middleware('auth');
+Route::delete('/admins/{id}/delete', [AdminController::class, 'destroy'])->middleware('auth');
+
+Route::post('/programmes/store', [ProgrammesController::class, 'store'])->middleware('auth');
+Route::get('/programmes',[ProgrammesController::class, 'index'])->middleware('auth');
+Route::get('/programmes/{id}',[ProgrammesController::class, 'show'])->middleware('auth');
+Route::delete('/programmes/{id}/delete',[ProgrammesController::class, 'destroy'])->middleware('auth');
+
+Route::post('/activeprogrammes/{id}', [ActivePrograms::class, 'store']);
+
+// Route::post('/programmes/store',[ProgrammesController::class, 'store']);

@@ -7,6 +7,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Programmes;
+use App\Models\ActiveProgrammes;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -19,20 +21,24 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name',
+        'age',
+        'gender',
         'email',
-        'password',
+        'password'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    public function programmes(){
+        return $this->hasMany(Programmes::class);
+    }
+
+    public function activeprograms(){
+        return $this->hasMany(ActiveProgrammes::class);
+    }
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
