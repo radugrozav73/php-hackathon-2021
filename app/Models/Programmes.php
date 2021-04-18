@@ -16,7 +16,7 @@ class Programmes extends Model
         'end_date',
         'room_name',
         'user_id',
-        'max_number',
+        'max_attenders',
     ];
 
     public function user(){

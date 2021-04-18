@@ -22,6 +22,9 @@ class ActivePrograms extends Controller
         ]);
 
         $programmes = Programmes::where('id', $id)->with(['activeprograms'])->get();
+        $programs = Programmes::with(['activeprograms'])->get();
+        $open_spots = Programmes::select('max_attenders')->where('id', $id)->get();
+
         if(count($programmes) == 0){
             return response('Wrong plan id, it does not exist');
         }
@@ -29,14 +32,25 @@ class ActivePrograms extends Controller
         $date2 = Carbon::createFromFormat('Y-m-d', $programmes[0]->start_date);
         $roomInstances = $programmes[0]->activeprograms;
 
+        
         if($date2->gt($date1)){
             return response('Start date greater than end date', 401);
         }
-        if(count($roomInstances) == 0 ){
-            1 == 1;
+
+        foreach($programs as $program){
+            foreach($roomInstances as $activities){
+                if (($date1->gte($program->start_date) || $date1->lte($program->end_date)) && ($date2->gte($program->start_date) || $date2->lte($program->end_date)) && $request->cnp == $activities->cnp){
+                    return response('Already registered in a differend activity', 401);
+                }
+            }
         }
-        else if (($date1 >= $roomInstances[0]->start_date && $date1 <= $roomInstances[0]->end_date) || ($date2 >= $roomInstances[0]->start_date && $date2 <= $roomInstances[0]->end_date)){
-            return response('Well Mate, you dont have time for that, you are already registered in a different room.', 401);
+
+        if($open_spots[0]->max_attenders === 0){
+            return response('Sorry, the room is full', 401);
+        }
+        else{
+            $open_spots[0]->max_attenders = $open_spots[0]->max_attenders - 1;
+            Programmes::where('id', $id)->update(array('max_attenders'=> $open_spots[0]->max_attenders));
         }
         ActiveProgrammes::create([
             'programmes_id' => $programmes[0]->id,

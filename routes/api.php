@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
@@ -23,8 +22,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/programmes/update/{id}', [ProgrammesController::class, 'update']);
     Route::delete('/programmes/{id}/delete',[ProgrammesController::class, 'destroy']);
 
-    Route::get('/activeprogrammes/index/{cnp}', [ActivePrograms::class, 'index'])->middleware('throttle:60,60');
+    Route::get('/activeprogrammes/index/{cnp}', [ActivePrograms::class, 'index']);
 });
 
-Route::post('/activeprogrammes/{id}', [ActivePrograms::class, 'store']);
+Route::post('/activeprogrammes/{id}', [ActivePrograms::class, 'store'])->middleware('throttle:60,60');
 Route::delete('/activeprogrammes/{id}/{cnp}', [ActivePrograms::class, 'destroy']);
