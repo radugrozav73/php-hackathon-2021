@@ -90,7 +90,7 @@ class ProgrammesController extends Controller
 
     public function destroy($id, Request $request)
     {
-        $program = $request->user()->programmes->where('id', $id);
+        $program = Programmes::where('id', $id)->get();
 
         if(count($program) === 0){
             return response('No such program or it might belong to a different admin', 401);
