@@ -22,13 +22,18 @@ class AdminController extends Controller
             'password' => 'required'
         ]);
     
-        $token = Auth::attempt($request->only('email', 'password'));
+        if(!$token = Auth::attempt($request->only('email', 'password'))){
+            return response('Wrong Credentials', 401);
+        }
 
         return response($token, 202);
     }
 
     public function registerAdmin(Request $request)
     {
+        if(User::where('email', $request->email)){
+            return response('This email is already in user', 401);
+        }
         $this->validate($request, [
             'name' => 'required|max:255',
             'age' => 'required',
